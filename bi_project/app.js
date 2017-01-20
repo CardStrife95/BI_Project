@@ -5,6 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var http =require('http');
+var engine = require('ejs-locals');
+
 var mongoose = require('mongoose');
 
 var index = require('./routes/index');
@@ -12,8 +15,18 @@ var users = require('./routes/users');
 
 var app = express();
 
+
+mongoose.connect("mongodb://127.0.0.1/bi_hospital_project",function(err){
+  if(err) {
+    throw err;
+  }
+});
+
+app.set('port', process.env.PORT || 3000);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('ejs',engine);  
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
@@ -45,4 +58,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+mongoose.connection.close();
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
+
+//module.exports = app;
