@@ -1,3 +1,5 @@
+require('./models/hopital');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,18 +12,17 @@ var engine = require('ejs-locals');
 
 var mongoose = require('mongoose');
 
-require('./models/hopital');
-
-
 var index = require('./routes/index');
 
 
 var app = express();
 
+
 mongoose.connect("mongodb://127.0.0.1/bi_hospital_project",function(err){
   if(err) {
     throw err;
   }
+  console.log('Connecting MongoDB');
 });
 
 app.use(require('./routes/route'));
