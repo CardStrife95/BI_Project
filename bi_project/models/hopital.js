@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Promise = require('bluebird');
+Promise.promisifyAll(mongoose);
 
 var Hopital = new Schema({
     id_hop : Schema.Types.ObjectId,
@@ -21,4 +23,5 @@ var Hopital = new Schema({
 
 module.exports = mongoose.model("Hopital",Hopital);
 
-//mongoose.connect("mongodb://127.0.0.1/bi_hospital_project");
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://127.0.0.1/bi_hospital_project");

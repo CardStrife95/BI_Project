@@ -1,0 +1,95 @@
+<% layout( 'layouts/layout' ) -%>
+
+<!-- <canvas id="myChart"></canvas> -->
+<div class="row">
+<div class="form-group pull-right col-sm-5">
+    <input type="text" class="search form-control" placeholder="Search ">
+</div>
+<span class="counter pull-right"></span>
+
+<% if(hopitaux){%>
+    <table class="table table-hover table_bordered results col-sm-5">
+        <thead>
+        <tr>
+            <th>Nom du centre</th>
+            <th>Adresse</th>
+            <th>Ville</th>
+            <th>Code Postal</th>
+            <th>Spécialité</th>
+            <th>Activité</th>
+            <th>Ouverture</th>
+            <th>Fermeture</th>
+            <th>Téléphone</th>
+        </tr>
+        </thead>
+        <tbody>
+    <% hopitaux.forEach(function(hopital){%>
+       <tr>
+        <td><%= hopital.nom_du_centre_de_sante %></td>
+        <td><%= hopital.adresse_rue %></td>
+        <td><%= hopital.adresse_ville %></td>
+        <td><%= hopital.adresse_code_postal %></td>
+        <td><%= hopital.specialite %></td>
+        <td><%= hopital.nom_de_lactivite %></td>
+        <td><%= hopital.heure_de_debut %></td>
+        <td><%= hopital.heure_de_fin %></td>
+        <td><%= hopital.numero_de_telephone %></td>
+       </tr> 
+    <% });%>
+    </tbody>
+    </table>
+<%} else {%>
+    <p>Aucune donnée</p>
+<% } %>
+
+</div>
+<!--
+<script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+             type: 'line',
+             data: {
+                labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+                datasets: [{
+                label: 'apples',
+                data: [12, 19, 3, 17, 6, 3, 7],
+                backgroundColor: "rgba(153,255,51,0.4)"
+            }, {
+                label: 'oranges',
+                data: [2, 29, 5, 5, 2, 3, 10],
+                backgroundColor: "rgba(255,153,0,0.4)"
+            }]
+            }
+        });
+
+</script>
+-->
+
+<script>
+$(document).ready(function() {
+  $(".search").keyup(function () {
+    var searchTerm = $(".search").val();
+    var listItem = $('.results tbody').children('tr');
+    var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+    
+  $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+    }
+  });
+    
+  $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+    $(this).attr('visible','false');
+  });
+
+  $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+    $(this).attr('visible','true');
+  });
+
+  var jobCount = $('.results tbody tr[visible="true"]').length;
+    $('.counter').text(jobCount + ' item');
+
+  if(jobCount == '0') {$('.no-result').show();}
+    else {$('.no-result').hide();}
+		  });
+});
+</script>

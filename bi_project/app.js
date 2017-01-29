@@ -10,21 +10,23 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var engine = require('ejs-locals');
 
+var Promise = require('bluebird');
 var mongoose = require('mongoose');
+mongoose = Promise.promisifyAll(mongoose);
 
 var index = require('./routes/index');
 
 
 var app = express();
 
-
+/*
 mongoose.connect("mongodb://127.0.0.1/bi_hospital_project",function(err){
   if(err) {
     throw err;
   }
   console.log('Connecting MongoDB');
 });
-
+*/
 app.use(require('./routes/route'));
 
 app.set('port', process.env.PORT || 3000);

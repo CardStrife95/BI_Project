@@ -1,9 +1,14 @@
+var Promise = require('bluebird');
 var mongoose = require('mongoose');
-//var Hopital = require('../models/hopital');
+Promise.promisifyAll(mongoose);
+Promise.promisifyAll(mongoose.Model.prototype);
+Promise.promisifyAll(mongoose.Query.prototype);
+
 var Hopital = mongoose.model('Hopital');
+Promise.promisifyAll(Hopital);
 var request = require('request');
 
-var url_api = "https://opendata.paris.fr/api/records/1.0/search/?dataset=consultations_des_centres_de_sante&rows=10&facet=nom_de_lactivite&facet=specialite&facet=adresse_code_postal&facet=adresse_ville";
+var url_api = "https://opendata.paris.fr/api/records/1.0/search/?dataset=consultations_des_centres_de_sante&rows=50&facet=nom_de_lactivite&facet=specialite&facet=adresse_code_postal&facet=adresse_ville";
 
 
 exports.list = function(req,res,next)
@@ -25,7 +30,7 @@ exports.list = function(req,res,next)
                 list.push(hopital);
             }
             totalHopital = list.length;
-            console.log(list);
+            //console.log(list);
             res.render('hopital',{hopital : list,total : totalHopital});
                  
         }
@@ -51,46 +56,73 @@ exports.update = function(req,res,next)
     console.log("Update...");
     request(url_api, function(err, resp, data){
         if(err) throw err;
+
         console.log("Reading The JSON data ...");
         var obj = JSON.parse(data);
         var records = obj.records;
 
 
-        if(records != null){
-           
+        if(records != null){           
             for(var i = 0;i<records.length;i++)
             {
                 var hopital= records[i].fields;
                 console.log("Création du schéma ...");
-                new Hopital({
-    name : hopital.nom_du_centre_de_sante,
-    address_nom_de_centre : hopital.adresse_nom_du_centre,
-    address_rue : hopital.address_rue,
-    address_ville: hopital.address_ville,
-    address_code_postal :hopital.address_code_postal,
-    jour : hopital.jour,
-    specialite : hopital.specialite,
-    activite : hopital.activite,
-    description:hopital.description,
-    opening : hopital.opening,
-    closing : hopital.closing,
-    long : hopital.longtitude,
-    lat : hopital.latitude,
-    phone_number : hopital.numero_de_telephone
-                }).save(function(err,hopital,count){
-                   if(err) {
-                       console.log("Erreur sur le save");
-                       next(err)};
-                   console.log("Enregistrement effectué");
-                   res.redirect('/hopital');         
+
+                var newHopital = new Hopital({
+                    name : hopital.nom_du_centre_de_sante,
+                    address_nom_de_centre : hopital.adresse_nom_du_centre,
+                    address_rue : hopital.adresse_rue,
+                    address_ville: hopital.adresse_ville,
+                    address_code_postal :hopital.adresse_code_postal,
+                    jour : hopital.jour,
+                    specialite : hopital.specialite,
+                    activite : hopital.nom_de_lactivite,
+                    description:hopital.description,
+                    opening : hopital.heure_de_debut,
+                    closing : hopital.heure_de_fin,
+                    long : hopital.longitude,
+                    lat : hopital.latitude,
+                    phone_number : hopital.numero_de_telephone
                 });
-                                
-            }            
-                 
+                console.log("Enregistrement dans la BDD ...");
+                /*
+                console.log(newHopital.name);
+                console.log(newHopital.address_nom_de_centre );
+                console.log(newHopital.address_rue );
+                console.log(newHopital.address_ville);
+                console.log(newHopital.address_code_postal);
+                console.log(newHopital.jour);
+                console.log(newHopital.specialite);
+                console.log(newHopital.activite);
+                console.log(newHopital.description);
+                console.log(newHopital.opening);
+                console.log(newHopital.closing);
+                console.log(newHopital.long);
+                console.log(newHopital.lat);
+                console.log(newHopital.phone_number);
+                */
+                //res.send(200);
+                
+                newHopital.save(function(err,hopital,count){
+                    if(err) next(err);
+                    console.log("Enregistrement avec Succès ..."+hopital);
+                    res.redirect('/hopital');
+                });
+                /*
+                newHopital.saveAsync().then(function(hopital,count){
+                    console.log(count);
+                    console.log("Enregistrement avec Succès ..."+hopital);
+                    res.send('/hopital');
+                }).catch(function (e){
+                    console.log("Erreur d'enregistrement ...");
+                    res.send(404);
+                });
+                  */        
+            }                 
         }
         else{
             console.log("Erreur sur l'update");
-            res.send("Nothing");
+            res.send(404);
         }
       
     });
@@ -146,5 +178,34 @@ exports.readHopital = function(req,res){
 }
 */
 
+exports.data_view_list = function(req,res,next)
+{
+   var totalHopital = 0;
+    request(url_api, function(err, resp, data){
+        if(err) throw err;
+        var obj = JSON.parse(data);
+        var records = obj.records;
+
+
+        var list = [];
+        if(records != null){
+           
+            for(var i = 0;i<records.length;i++)
+            {
+                var hopital= records[i].fields;
+                
+                list.push(hopital);
+            }
+            totalHopital = list.length;
+            //console.log(list);
+            res.render('data_view',{hopitaux : list,total : totalHopital});
+                 
+        }
+        else{
+            res.send("Nothing");
+        }
+      
+    });
+};
 
 
