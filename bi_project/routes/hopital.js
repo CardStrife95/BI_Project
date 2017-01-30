@@ -8,7 +8,7 @@ var Hopital = mongoose.model('Hopital');
 Promise.promisifyAll(Hopital);
 var request = require('request');
 
-var url_api = "https://opendata.paris.fr/api/records/1.0/search/?dataset=consultations_des_centres_de_sante&rows=50&facet=nom_de_lactivite&facet=specialite&facet=adresse_code_postal&facet=adresse_ville";
+var url_api = "https://opendata.paris.fr/api/records/1.0/search/?dataset=consultations_des_centres_de_sante&rows=10&facet=nom_de_lactivite&facet=specialite&facet=adresse_code_postal&facet=adresse_ville";
 
 
 exports.list = function(req,res,next)
@@ -106,7 +106,8 @@ exports.update = function(req,res,next)
                 newHopital.save(function(err,hopital,count){
                     if(err) next(err);
                     console.log("Enregistrement avec Succès ..."+hopital);
-                    res.redirect('/hopital');
+                    //res.redirect('/hopital');
+                    res.send(200);
                 });
                 /*
                 newHopital.saveAsync().then(function(hopital,count){
@@ -209,3 +210,6 @@ exports.data_view_list = function(req,res,next)
 };
 
 
+exports.count_hopital=function(req,res,next){
+
+}
