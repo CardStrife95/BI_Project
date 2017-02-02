@@ -1,0 +1,41 @@
+<% layout( 'layouts/layout' ) -%>
+
+<div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="/dataview">Menu<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/one">Nombre d'Hôpitaux en France</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/nm">Natalité/Mortalité</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Export</a>
+            </li>
+          </ul>
+        </nav>
+
+        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+
+          <h2>Taux de Mortalité</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+                <img src="./Mortalite.png" alt="mortalite" />
+            </table>
+          </div>
+          
+          <h2>Taux de Natalité</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+                <img src="./Natalite.png" alt="natalite" />
+            </table>
+          </div>
+
+
+        </main>
+      </div>
+    </div>

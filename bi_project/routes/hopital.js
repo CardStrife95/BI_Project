@@ -13,32 +13,32 @@ var url_api = "https://opendata.paris.fr/api/records/1.0/search/?dataset=consult
 
 exports.list = function(req,res,next)
 {
-   var totalHopital = 0;
-    request(url_api, function(err, resp, data){
-        if(err) throw err;
-        var obj = JSON.parse(data);
-        var records = obj.records;
+    var totalHopital = 0;
+        request(url_api, function(err, resp, data){
+            if(err) throw err;
+            var obj = JSON.parse(data);
+            var records = obj.records;
 
 
-        var list = [];
-        if(records != null){
-           
-            for(var i = 0;i<records.length;i++)
-            {
-                var hopital= records[i].fields;
-                
-                list.push(hopital);
+            var list = [];
+            if(records != null){
+            
+                for(var i = 0;i<records.length;i++)
+                {
+                    var hopital= records[i].fields;
+                    
+                    list.push(hopital);
+                }
+                totalHopital = list.length;
+                console.log(list);
+                res.render('hopital',{hopital : list,total : totalHopital});
+                    
             }
-            totalHopital = list.length;
-            //console.log(list);
-            res.render('hopital',{hopital : list,total : totalHopital});
-                 
-        }
-        else{
-            res.send("Nothing");
-        }
-      
-    });
+            else{
+                res.send("Nothing");
+            }
+        
+        });
 };
 
 exports.read = function(req,res,next)

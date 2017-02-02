@@ -1,0 +1,50 @@
+<% layout( 'layouts/layout' ) -%>
+
+<div class="row">
+        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="/dataview">Menu<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/one">Nombre d'Hôpitaux en France</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/nm">Natalité/Mortalité</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Export</a>
+            </li>
+          </ul>
+
+          
+        </nav>
+
+        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+
+          <h2>Liste des hôpitaux d'Île de France</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+                <div id="vis_div" style="width: 600px; height: 400px;"></div>
+            </table>
+          </div>
+        </main>
+      </div>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current');   // Don't need to specify chart libraries!
+      google.charts.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+        var wrapper = new google.visualization.ChartWrapper({
+          chartType: 'ColumnChart',
+          dataTable: [['', 'Structure médico-sociale', 'Centre hospitalier régional', 'Hôpital dépendant CHRU', 'Centre hospitalier', 'Centre hospitalier spécialisé', 'Hôpital local'],
+                      ['', 218, 3, 55, 616, 89, 132]],
+          options: {'title': 'Countries'},
+          containerId: 'vis_div'
+        });
+        wrapper.draw();
+      }
+    </script>
+      
+    

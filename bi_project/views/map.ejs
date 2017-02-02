@@ -1,0 +1,51 @@
+ <% layout('layouts/layout') -%> 
+ <br />
+    <h3>Île de France</h3>
+    <div id="map"></div>
+
+    <script>
+      function initMap() {
+        
+        //var Paris = {lat: 48.85341, lng: 2.3488};
+        var SaintJacques = {lat:48.8396194, lng:2.30941919999998 };
+        
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: SaintJacques
+        });
+          //Centre de santé Saint Jacques'
+          var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">Centre de santé Saint Jacques</h1>'+
+      '<div id="bodyContent">'+
+      '<p>L\'acupuncture est une branche de la médecine traditionnelle chinoise basée sur la localisation et la manipulation de fines aiguilles en des points du corps (sur les méridiens énergétiques) à des fins thérapeutiques.</p>'+
+      '<p>37, rue des Volontaires 75015 Paris</p>'+
+      '</div>'+
+      '</div>';
+      /*
+           var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">Paris</h1>'+
+      '<div id="bodyContent">'+
+      '<p>Paris</p>'+
+      '</div>'+
+      '</div>';
+        */  
+          var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+          
+        var marker = new google.maps.Marker({
+          position: SaintJacques,
+          map: map
+        });
+          marker.addListener('click', function() {
+    infowindow.open(map, marker);
+  });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5trCyNvMsVzW1KfvWFG8YbagauqhGI6o&callback=initMap">
+    </script>

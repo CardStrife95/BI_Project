@@ -2,13 +2,28 @@
 
 <!-- <canvas id="myChart"></canvas> -->
 <div class="row">
-<div class="form-group pull-right col-sm-5">
-    <input type="text" class="search form-control" placeholder="Search ">
-</div>
-<span class="counter pull-right"></span>
+<nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="/dataview">Menu<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/one">Nombre d'Hôpitaux en France</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/nm">Natalité/Mortalité</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Export</a>
+            </li>
+          </ul>
+
+        
+        </nav>
 
 <% if(hopitaux){%>
-    <table class="table table-hover table_bordered results col-sm-5">
+<main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+    <table class="table table-hover table_bordered results col-sm-4">
         <thead>
         <tr>
             <th>Nom du centre</th>
@@ -38,6 +53,7 @@
     <% });%>
     </tbody>
     </table>
+    </main>
 <%} else {%>
     <p>Aucune donnée</p>
 <% } %>

@@ -30,7 +30,7 @@ mongoose.connect("mongodb://127.0.0.1/bi_hospital_project",function(err){
 app.use(require('./routes/route'));
 
 app.set('port', process.env.PORT || 3000);
-
+app.set('public', path.join( __dirname + "public" ) );
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs',engine);  

@@ -2,7 +2,7 @@
 
 <h1>Hopital</h1>
 <div class="row">
-    <div class="col-sm-4 sidebar">
+    <div class="col-sm-3 sidebar">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -13,11 +13,19 @@
             <div class="panel-body">
                 <form action="/hopital/update" method="post">
                    <fieldset>
-                       <button type="button" class="btn btn-info btn-lg">Update</button>
+                       <button type="submit" class="btn btn-info btn-lg">Update</button>
                    </fieldset>
                 </form>
-                <form action="" method="post">
-
+                
+                <br />
+                <h3>Recherche d'un hopital</h3>
+                <form action="/hopital/search" method="post">
+                    <div class="form-group">
+                        <label for="name">Nom :</label>
+                        <input type="text" class="form-control" id="name_hopital" placeholder="Entrez un nom d'hopital" />
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Recherche</button>
                 </form>
             </div>
         </div>
@@ -25,7 +33,7 @@
 </div>
 
 <% if(hopital){%>
-<div class="col-sm-8">
+<div class="col-sm-9">
     <h2>Liste des hôpitaux : <%= total %></h2>
     <% hopital.forEach(function(hop){%>
     <div class="panel panel-primary">
